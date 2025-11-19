@@ -1,0 +1,798 @@
+{
+  "name": "Company Research Public",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "$json.query = `${$json['Company Name']} official website company profile`;\nreturn $json;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "db9dfcbd-29ac-40e5-a99a-4381443da32d",
+      "name": "Refine search term for SerpAPI"
+    },
+    {
+      "parameters": {
+        "q": "={{ $json.query }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-serpapi.serpApi",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "e67c90aa-926d-4622-8c28-e3c1cf59712a",
+      "name": "Search Company using Google Search",
+      "credentials": {
+        "serpApi": {
+          "id": "3FfAxRCOi4Rwypeg",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appAszE6ncXJEpgLq",
+          "mode": "list",
+          "cachedResultName": "Company Research",
+          "cachedResultUrl": "https://airtable.com/appAszE6ncXJEpgLq"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblPjytPeDK12xjOw",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appAszE6ncXJEpgLq/tblPjytPeDK12xjOw"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $node[\"Disregard Completed\"].json['Company Name']}}",
+            "Status": "Complete",
+            "Website": "={{ $node[\"Extract website info\"].json.website }}",
+            "Title": "={{ $node[\"Extract website info\"].json.title }}",
+            "Description": "={{ $node[\"Extract website info\"].json.snippet }}",
+            "Company Classification": "={{ $('Merge Items into Text').item.json.industry }}",
+            "Company Deep Summary": "={{ $('Merge Items into Text').item.json.offerings }}",
+            "Extract Product List": "={{ $('Merge Items into Text').item.json.products }}",
+            "Value Proposition": "={{ $('Merge Items into Text').item.json.valueprop }}",
+            "Pain Points": "={{ $('Merge Items into Text').item.json.painPoints }}",
+            "Tech Stack Detection": "={{ $json.message.content }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Classification",
+              "displayName": "Company Classification",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Deep Summary",
+              "displayName": "Company Deep Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Extract Product List",
+              "displayName": "Extract Product List",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Value Proposition",
+              "displayName": "Value Proposition",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Pain Points",
+              "displayName": "Pain Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tech Stack Detection",
+              "displayName": "Tech Stack Detection",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        848
+      ],
+      "id": "8f4669aa-b159-4aed-97d9-28c7f4938ae8",
+      "name": "Update Existing Database in Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "qk51Zz9dBBwmqL5y",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1p2LOnX0pg9_CO5Q33BnJuKTbqLC95HQADp2KnET3-Ko",
+          "mode": "list",
+          "cachedResultName": "Company Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2LOnX0pg9_CO5Q33BnJuKTbqLC95HQADp2KnET3-Ko/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2LOnX0pg9_CO5Q33BnJuKTbqLC95HQADp2KnET3-Ko/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Complete",
+            "Company Name": "={{ $node[\"Disregard Completed\"].json['Company Name']}}"
+          },
+          "matchingColumns": [
+            "Company Name"
+          ],
+          "schema": [
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        288,
+        848
+      ],
+      "id": "3fea03dc-0df1-4aae-8afc-89e2de0cd544",
+      "name": "Update Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "NoFkzHUzeVSpKSUQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Analyze the following {{ $json.website_text }} and identify any technologies the company uses, such as:\n- CMS (WordPress, Shopify, Webflow)\n- CRM systems\n- Analytics tools (GA4, Meta Pixel)\n- Marketing platforms\n- Ecommerce systems\n- Frameworks (React, Angular, Vue)\n- Backend technologies if detectable\nReturn as JSON. "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1408,
+        464
+      ],
+      "id": "e7a40538-a208-41c3-9e6a-eed2645a80a9",
+      "name": "Tech Stack Detection",
+      "credentials": {
+        "openAiApi": {
+          "id": "12x467upnA3BlVJU",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1p2LOnX0pg9_CO5Q33BnJuKTbqLC95HQADp2KnET3-Ko",
+          "mode": "list",
+          "cachedResultName": "Company Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2LOnX0pg9_CO5Q33BnJuKTbqLC95HQADp2KnET3-Ko/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1p2LOnX0pg9_CO5Q33BnJuKTbqLC95HQADp2KnET3-Ko/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a955b6a2-22bc-43e5-bf33-af73e891e41e",
+      "name": "Company Input",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "3TmItjbPpM04wPqo",
+          "name": "Google Sheets Trigger account"
+        }
+      },
+      "notes": "This is where we will enter the data or the company name for company research"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "476aa48b-e29e-46aa-81de-881bf13a1f42",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d648268c-60f5-4207-bf10-89fd48560c72",
+      "name": "Disregard Completed",
+      "notes": "This node will filter cells that have a status of Complete and skip it. Only pending status will be kept."
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $('Extract website info').item.json.domain }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1152,
+        0
+      ],
+      "id": "85a03dd5-e5eb-4f78-b057-dc44843e4120",
+      "name": "Get website data"
+    },
+    {
+      "parameters": {
+        "jsCode": "let html = $json.data || \"\";\nconst MAX_LENGTH = 6000;\nhtml = html\n  .replace(/<script[\\s\\S]*?<\\/script>/gi, \"\")\n  .replace(/<style[\\s\\S]*?<\\/style>/gi, \"\")\n  .replace(/<[^>]*>/g, \" \") // remove HTML tags\n  .replace(/\\s+/g, \" \")\n  .trim();\nhtml = html.slice(0, MAX_LENGTH);\nif (!html || html.length < 100) {\n  return [{ website_text: \"NO_CONTENT\" }];\n}\nreturn [{ website_text: html }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        0
+      ],
+      "id": "790c7a61-34e6-45b7-93d4-ad8fb499548a",
+      "name": "Remove bloat on website and extract the text"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.scraperapi.com?api_key=YOUR_API_KEY&url={{ $node[\"Extract website info\"].json.domain }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1056,
+        464
+      ],
+      "id": "d02184d3-a51a-4909-aa19-d2540d3222f9",
+      "name": "Scraper API",
+      "retryOnFail": true,
+      "waitBetweenTries": 1500,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "let html = $json.data || \"\";\n\n// 1. Remove script tags\nhtml = html.replace(/<script[\\s\\S]*?<\\/script>/gi, \"\");\n\n// 2. Remove style tags\nhtml = html.replace(/<style[\\s\\S]*?<\\/style>/gi, \"\");\n\n// 3. Remove comments\nhtml = html.replace(/<!--[\\s\\S]*?-->/g, \"\");\n\n// 4. Remove base64 images\nhtml = html.replace(/data:image\\/[^;]+;base64[^\"']+/g, \"\");\n\n// 5. Remove all HTML tags\nhtml = html.replace(/<[^>]*>/g, \" \");\n\n// 6. Collapse multiple spaces/newlines\nhtml = html.replace(/\\s+/g, \" \").trim();\n\n// 7. HARD LIMIT to avoid token overflow (VERY IMPORTANT)\nconst MAX_LENGTH = 6000;  \nhtml = html.slice(0, MAX_LENGTH);\n\nreturn [{ website_text: html }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        464
+      ],
+      "id": "2d9d92da-c38a-4b96-832c-ba1043f21c44",
+      "name": "Clean HTML"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  text_short: $json.website_text.slice(0, 2000),\n  text_mid: $json.website_text.slice(0, 4000),\n  text_long: $json.website_text.slice(0, 6000),\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        16,
+        464
+      ],
+      "id": "ae5cc687-5942-43b1-9b54-ddce014b96e5",
+      "name": "Short, Mid, Long input for AI"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text_short = $json.text_short;\nconst text_mid = $json.text_mid;\nconst text_long = $json.text_long;\n\nreturn [\n  {\n    task: \"deep_summary\",\n    instruction: \"Summarize what this company does, including offerings, customers, markets, and value proposition.\",\n    input: text_long\n  },\n  {\n    task: \"product_list\",\n    instruction: \"Extract the list of products or services this company offers. Return a JSON array.\",\n    input: text_short\n  },\n  {\n    task: \"value_prop\",\n    instruction: \"Describe the company's unique value proposition in 2-3 sentences.\",\n    input: text_mid\n  },\n  {\n    task: \"pain_points\",\n    instruction: \"Based on the website text, infer the possible business pain points this company experiences.\",\n    input: text_mid\n  },\n  {\n    task: \"opportunities\",\n    instruction: \"Identify 3–5 automation opportunities relevant to n8n based on their business.\",\n    input: text_mid\n  },\n  {\n    task: \"industry_classification\",\n    instruction: \"Identify the primary industry or industries this company operates in.\",\n    input: text_short\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        464
+      ],
+      "id": "41471298-5e3a-4218-aeb9-3cecc94698ce",
+      "name": "Generate AI Tasks"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an AI that performs modular tasks.\n\nTASK TYPE:\n{{ $json.task }}\n\nINSTRUCTION:\n{{ $json.instruction }}\n\nINPUT TEXT:\n{{ $json.input }}\n\nReturn the output as clean JSON:\n\n{\n  \"task\": \"{{ $json.task }}\",\n  \"result\": (your answer here)\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        416,
+        464
+      ],
+      "id": "1773bced-470b-471c-965f-882d4d2b2d45",
+      "name": "Message a model",
+      "retryOnFail": false,
+      "credentials": {
+        "openAiApi": {
+          "id": "12x467upnA3BlVJU",
+          "name": "OpenAi account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $json.organic_results?.[0] || {};\n\nlet website = result.link || \"\";\nlet domain = \"\";\n\n// Extract clean domain\ntry {\n  const url = new URL(website);\n  domain = url.hostname.replace(/^www\\./, \"\");\n} catch (e) {\n  // If it's not a valid URL, attempt manual cleanup\n  domain = website\n    .replace(/^https?:\\/\\//, \"\")\n    .replace(/^www\\./, \"\")\n    .split(\"/\")[0];\n}\n\nreturn [\n  {\n    website,\n    domain,\n    title: result.title || \"\",\n    snippet: result.snippet || \"\",\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "cb4f155b-7492-4a2f-9cdc-fde657679a7f",
+      "name": "Extract website info"
+    },
+    {
+      "parameters": {
+        "content": "# Website Info\n## Fetch company information from Google Sheets. The search using SerpAPI and custom HTTP request to get the website data. Refine the result by removing unneeded information.",
+        "height": 336,
+        "width": 1744
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -192
+      ],
+      "typeVersion": 1,
+      "id": "84d50e92-a53f-4b31-a99b-bdbd2654bb82",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# AI Processor\n## These set of nodes will get the input and divide it into short, mid and long text. Create task for the AI Input. Process by Open AI. AI will return multiple items and it will be combined into 1 result. ScraperAPI will perform the tech stack detection. Results will be cleaned and removed the information that is not needed.",
+        "height": 400,
+        "width": 2096,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "63f5c586-36e7-4e60-8412-806730f705df",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Update Database and initial record.\n## Result will be added to an existing database with predefined column and the initial Google Sheet's status will be updated from Pending to Complete.\n",
+        "height": 336,
+        "width": 880,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -16,
+        672
+      ],
+      "typeVersion": 1,
+      "id": "b8b9f1f4-bdd0-4531-9b94-44550c740885",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// This tells n8n to grab all 6 items as an array\nconst allItems = $input.all();\n\n\n// This will hold all the data for our single Airtable row\nconst finalOutput = {};\n\n// Loop through each of the 6 task outputs\nfor (const item of allItems){\n  try {\n    // 1. Get the message object from the item\n    const msg = item.json.message;\n    // 2. Parse the content string into a real object\n    const content = JSON.parse(msg.content);\n    const task = content.task;\n\n    // 3. Use the task name to assign data to a key\n    //    You MUST update the 'case' names to match your 6 tasks\n    switch (task){\n      case \"deep_summary\":\n        finalOutput.company_name = content.result.company_name;\n        if (Array.isArray(content.result.offerings)){\n          finalOutput.offerings = content.result.offerings.join('\\n');\n        }\n        break;\n      case \"product_list\":\n        finalOutput.products = content.result.join(',');\n        break;\n      case \"value_prop\":\n        finalOutput.valueprop = content.result;\n        break;\n      case \"pain_points\":\n        // We map the array of objects into a readable string\n        const painPointsArray = content.result.map(p => {\n          return `Pain Point: ${p.pain_point}\\nDescription: ${p.description}`;\n        });\n        // Join each entry with a blank line\n        finalOutput.painPoints = painPointsArray.join('\\n\\n'); \n        break;\n      case \"opportunities\":\n        const oppsArray = content.result.map(o => {\n          return `Opportunity: ${o.opportunity}\\nDescription: ${o.description}`;\n        });\n        // Join each entry with a blank line\n        finalOutput.opportunities = oppsArray.join('\\n\\n');\n        break;\n      case \"industry_classification\":\n        finalOutput.industry = content.result.join(',');\n        break;\n      default:\n        // This helps you find tasks you forgot to add\n        console.log('Unrecognized task: ${task}');\n    }\n  } catch (error){\n    // This will catch any errors if the content string isn't valid JSON\n    console.error(\"Error parsing content:\",error, item.json.message.content);\n  }\n}\n// 3. Overwrite the item's JSON with our new, clean object\nreturn[{json: finalOutput}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        464
+      ],
+      "id": "689abf14-d716-4de4-9461-4c985c4c7d71",
+      "name": "Merge Items into Text",
+      "executeOnce": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Refine search term for SerpAPI": {
+      "main": [
+        [
+          {
+            "node": "Search Company using Google Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Company using Google Search": {
+      "main": [
+        [
+          {
+            "node": "Extract website info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Existing Database in Airtable": {
+      "main": [
+        [
+          {
+            "node": "Update Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tech Stack Detection": {
+      "main": [
+        [
+          {
+            "node": "Update Existing Database in Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Input": {
+      "main": [
+        [
+          {
+            "node": "Disregard Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disregard Completed": {
+      "main": [
+        [
+          {
+            "node": "Refine search term for SerpAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get website data": {
+      "main": [
+        [
+          {
+            "node": "Remove bloat on website and extract the text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove bloat on website and extract the text": {
+      "main": [
+        [
+          {
+            "node": "Short, Mid, Long input for AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scraper API": {
+      "main": [
+        [
+          {
+            "node": "Clean HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean HTML": {
+      "main": [
+        [
+          {
+            "node": "Tech Stack Detection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Short, Mid, Long input for AI": {
+      "main": [
+        [
+          {
+            "node": "Generate AI Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate AI Tasks": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Merge Items into Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract website info": {
+      "main": [
+        [
+          {
+            "node": "Get website data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Items into Text": {
+      "main": [
+        [
+          {
+            "node": "Scraper API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "77ec3a17-b937-4c0b-bf22-f1f29cf060ca",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "08422c9e895a167179b002a65188a76812bfe147ca46637d21addba06f410b38"
+  },
+  "id": "2T4iPBEDZQxbmEzv",
+  "tags": []
+}
